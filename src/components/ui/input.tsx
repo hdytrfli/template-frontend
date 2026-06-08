@@ -46,7 +46,7 @@ export const Input = ({
           'text-sm',
           'input-appearance-none',
           'bg-ghost text-foreground',
-          'w-full h-10 px-4 rounded-lg',
+          'w-full h-12 px-4 rounded-lg',
           'disabled:cursor-not-allowed disabled:text-text',
           'focus-visible:ring-2 focus-visible:ring-accent outline-none',
           { 'ring-2 ring-destructive': invalid },
