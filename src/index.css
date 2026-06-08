@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --light: #ffffff;
+  --accent: #883dff;
+  --background: #fdfdfd;
+  --foreground: #1d1d1f;
+  --destructive: var(--color-rose-600);
+
+  --text: oklch(from var(--foreground) calc(l + 0.3) c h);
+  --muted: oklch(from var(--foreground) calc(l + 0.6) c h);
+  --ghost: oklch(from var(--background) calc(l - 0.04) c h);
+  --showcase: oklch(from var(--background) calc(l - 0.03) c h);
+
+  --font-geist: 'Geist Variable', system-ui, sans-serif;
+  --font-stack: 'Stack Sans Notch Variable', sans-serif;
+}
+
+.dark {
+  --light: #ffffff;
+  --accent: #883dff;
+  --background: #1d1d1f;
+  --foreground: #fdfdfd;
+  --destructive: var(--color-rose-700);
+
+  --text: oklch(from var(--foreground) calc(l - 0.4) c h);
+  --muted: oklch(from var(--foreground) calc(l - 0.6) c h);
+  --ghost: oklch(from var(--background) calc(l + 0.04) c h);
+  --showcase: oklch(from var(--background) calc(l + 0.03) c h);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-heading: var(--font-stack);
+
+  --color-light: var(--light);
+  --color-accent: var(--accent);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-destructive: var(--destructive);
+
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-showcase: var(--showcase);
+  --color-ghost: var(--ghost);
+}
+
+@utility container {
+  @apply max-w-6xl;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@utility input-appearance-none {
+  appearance: none;
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+  &::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* @utility link-accent {
+  text-decoration-style: wavy;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.25rem;
+} */
+
+@layer base {
+  * {
+    border-color: var(--color-ghost);
+  }
+
+  html {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  body {
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  p {
+    line-height: 2;
+  }
+
+  a {
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+
+    text-decoration-style: dotted;
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-accent);
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px hsl(var(--border)) inset;
+    -webkit-text-fill-color: hsl(var(--foreground));
+    caret-color: hsl(var(--foreground));
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-stack);
+    color: var(--color-foreground);
+  }
+}
