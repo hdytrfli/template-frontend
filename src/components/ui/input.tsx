@@ -17,6 +17,8 @@ const paddings = {
 
 /**
  * Base input component with optional icon.
+ * @param icon - Optional Lucide icon component
+ * @param position - Whether icon sits at 'start' or 'end' (default: 'start')
  */
 export const Input = ({
   icon: Icon,

@@ -12,6 +12,8 @@ interface FieldProps extends React.ComponentProps<'fieldset'> {
 /**
  * Field container for form inputs with error and description support.
  * Shows error if present, otherwise shows description.
+ * @param error - Error message to display
+ * @param description - Description or hint text to display below the input
  */
 export const Field = ({ error, description, children, className, ...rest }: FieldProps) => {
   const message = (error && error.message) || description;

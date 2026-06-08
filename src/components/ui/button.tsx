@@ -17,6 +17,7 @@ interface ButtonProps extends React.ComponentProps<'button'> {
 
 /**
  * Button with a variety of styles and states.
+ * @param variant - Button style primary, secondary, accent, destructive, or ghost (default: primary)
  */
 export const Button: React.FC<ButtonProps> = ({ children, variant, className, ...rest }) => {
   const variants: Record<ButtonVariant, ClassValue> = {

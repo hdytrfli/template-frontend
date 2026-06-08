@@ -9,6 +9,8 @@ interface Props extends React.ComponentProps<'label'> {
 
 /**
  * Label for form inputs with optional required indicator.
+ * @param children - Label text content
+ * @param required - Shows required asterisk when true (default: false)
  */
 export const Label = ({ children, required, className, ...rest }: Props) => {
   return (

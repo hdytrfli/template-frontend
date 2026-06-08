@@ -17,6 +17,9 @@ const paddings = {
 
 /**
  * Base select component with optional icon.
+ * @param icon - Optional Lucide icon component
+ * @param position - Whether icon sits at 'start' or 'end' (default: 'start')
+ * @param invalid - Shows error state ring when true
  */
 export const Select = ({
   invalid = false,
