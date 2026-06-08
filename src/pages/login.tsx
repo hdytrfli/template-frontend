@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Lock, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -48,12 +48,13 @@ export const Login = () => {
 
       <Field error={form.formState.errors.username}>
         <Label htmlFor='username'>Username</Label>
-        <Input id='username' placeholder='Username' {...form.register('username')} />
+        <Input id='username' placeholder='Username' {...form.register('username')} icon={User} />
       </Field>
 
       <Field error={form.formState.errors.password} description='Enter your password'>
         <Label htmlFor='password'>Password</Label>
         <Input
+          icon={Lock}
           id='password'
           type='password'
           placeholder='Password'
