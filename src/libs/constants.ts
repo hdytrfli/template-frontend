@@ -1,6 +1,6 @@
 import { Eclipse, Moon, Sun } from 'lucide-react';
 
-import type { ThemeItem } from '@/libs/types';
+import type { ThemeItem } from '@/types/theme';
 
 /**
  * All available placements for anchored items

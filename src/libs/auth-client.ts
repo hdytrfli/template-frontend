@@ -3,7 +3,7 @@ import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 const tokenName = import.meta.env.VITE_ACCESS_TOKEN_NAME;
 
-const authClient = axios.create({
+const apiClient = axios.create({
   baseURL: apiUrl,
   withCredentials: true,
 });
@@ -14,17 +14,17 @@ const refreshClient = axios.create({
 });
 
 let accessToken: string | null = null;
-
+export const getAccessToken = () => accessToken;
 export const setAccessToken = (token: string | null) => {
   accessToken = token;
 };
 
-authClient.interceptors.request.use((config) => {
+apiClient.interceptors.request.use((config) => {
   if (accessToken) config.headers.Authorization = tokenName + ' ' + accessToken;
   return config;
 });
 
-authClient.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -37,7 +37,7 @@ authClient.interceptors.response.use(
         const token = data.data.accessToken;
         setAccessToken(token);
         originalRequest.headers.Authorization = tokenName + ' ' + token;
-        return authClient(originalRequest);
+        return apiClient(originalRequest);
       } catch {
         setAccessToken(null);
         throw error;
@@ -48,4 +48,4 @@ authClient.interceptors.response.use(
   },
 );
 
-export default authClient;
+export default apiClient;

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 
 import { Toaster } from '@/components/toaster';
-import { AuthProvider } from '@/context/auth-context';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { DashboardLayout } from '@/layouts/dashboard-layout';
 import { ProtectedRoute } from '@/layouts/protected-route';
@@ -13,22 +12,20 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster />
-      <AuthProvider>
-        <Routes>
-          <Route element={<AuthLayout />}>
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-          </Route>
+      <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Route>
 
-          <Route element={<ProtectedRoute />}>
-            <Route element={<DashboardLayout />}>
-              <Route path='/dashboard' element={<Dashboard />} />
-            </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path='/dashboard' element={<Dashboard />} />
           </Route>
+        </Route>
 
-          <Route path='*' element={<Navigate to='/login' replace />} />
-        </Routes>
-      </AuthProvider>
+        <Route path='*' element={<Navigate to='/login' replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }

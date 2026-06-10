@@ -1,8 +1,8 @@
 import { ChevronDown, type LucideIcon } from 'lucide-react';
 import * as React from 'react';
 
-import type { IconPosition } from '@/libs/types';
 import { cn } from '@/libs/utils';
+import type { IconPosition } from '@/types/theme';
 
 interface Props extends React.ComponentProps<'select'> {
   icon?: LucideIcon;

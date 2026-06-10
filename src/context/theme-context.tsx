@@ -1,7 +1,7 @@
 import { Eclipse, type LucideIcon } from 'lucide-react';
 import * as React from 'react';
 
-import type { Theme } from '@/libs/types';
+import type { Theme } from '@/types/theme';
 
 interface ThemeProviderState {
   theme: Theme;

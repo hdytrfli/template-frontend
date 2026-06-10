@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ThemeProviderContext } from '@/context/theme-context';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { THEMES } from '@/libs/constants';
-import type { Theme } from '@/libs/types';
+import type { Theme } from '@/types/theme';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
