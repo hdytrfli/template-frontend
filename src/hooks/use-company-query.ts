@@ -1,19 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as z from 'zod';
 
-import { companyService, createCompanySchema, updateCompanySchema } from '@/api/company';
+import { companyService, createCompanySchema, updateCompanySchema } from '@/services/company';
+import type { PageParams } from '@/types/api';
 
 export const companyKeys = {
   all: ['companies'] as const,
-  list: (params?: Record<string, unknown>) => [...companyKeys.all, 'list', params] as const,
+  list: (params: PageParams) => [...companyKeys.all, 'list', params] as const,
   detail: (id: string) => [...companyKeys.all, 'detail', id] as const,
 };
 
-export const useCompanies = (params?: {
-  page?: number;
-  limit?: number;
-  filter?: Record<string, unknown>;
-}) => {
+export const useCompanies = (params: PageParams = {}) => {
   return useQuery({
     queryKey: companyKeys.list(params),
     queryFn: async () => {

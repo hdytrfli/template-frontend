@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react';
-import { Outlet } from 'react-router';
+import { NavLink, Outlet } from 'react-router';
 
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/use-auth';
@@ -14,7 +14,26 @@ export const DashboardLayout = () => {
   return (
     <div className='container'>
       <header className='flex items-center justify-between py-6'>
-        <span>Welcome, {user?.name}!</span>
+        <div className='flex items-center gap-6'>
+          <span className='font-medium'>Welcome, {user?.name}!</span>
+          <nav className='flex items-center gap-6 text-sm'>
+            <NavLink
+              to='/dashboard'
+              className='no-style hover:text-foreground flex items-center gap-2'>
+              <span>Dashboard</span>
+            </NavLink>
+
+            <NavLink to='/users' className='no-style hover:text-foreground flex items-center gap-2'>
+              <span>Users</span>
+            </NavLink>
+
+            <NavLink
+              to='/companies'
+              className='no-style hover:text-foreground flex items-center gap-2'>
+              <span>Companies</span>
+            </NavLink>
+          </nav>
+        </div>
 
         <div className='flex items-center gap-2'>
           <Button type='button' variant='destructive' onClick={logout}>

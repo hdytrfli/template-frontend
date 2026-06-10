@@ -79,13 +79,6 @@
   }
 }
 
-/* @utility link-accent {
-  text-decoration-style: wavy;
-  text-decoration-line: underline;
-  text-decoration-color: var(--color-accent);
-  text-underline-offset: 0.25rem;
-} */
-
 @layer base {
   * {
     border-color: var(--color-ghost);
@@ -114,7 +107,7 @@
     line-height: 2;
   }
 
-  a {
+  a:not(.no-style) {
     text-underline-offset: 4px;
     text-decoration-thickness: 2px;
 

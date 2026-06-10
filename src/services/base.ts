@@ -17,14 +17,14 @@ export class ApiClient<T, C = Partial<T>, U = Partial<T>> {
   }
 
   findById(id: string) {
-    return apiClient.get<ApiResponse<T>>(`${this.basePath}/${id}`);
+    return apiClient.get<ApiResponse<T>>(this.basePath + '/' + id);
   }
 
   update(id: string, data: U) {
-    return apiClient.patch<ApiResponse<T>>(`${this.basePath}/${id}`, data);
+    return apiClient.patch<ApiResponse<T>>(this.basePath + '/' + id, data);
   }
 
   delete(id: string) {
-    return apiClient.delete<ApiResponse<null>>(`${this.basePath}/${id}`);
+    return apiClient.delete<ApiResponse<null>>(this.basePath + '/' + id);
   }
 }

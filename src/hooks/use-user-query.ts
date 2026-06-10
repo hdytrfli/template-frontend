@@ -1,19 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import * as z from 'zod';
 
-import { userService, createUserSchema, updateUserSchema } from '@/api/user';
+import { userService, createUserSchema, updateUserSchema } from '@/services/user';
+import type { PageParams } from '@/types/api';
 
 export const userKeys = {
   all: ['users'] as const,
-  list: (params?: Record<string, unknown>) => [...userKeys.all, 'list', params] as const,
+  list: (params: PageParams) => [...userKeys.all, 'list', params] as const,
   detail: (id: string) => [...userKeys.all, 'detail', id] as const,
 };
 
-export const useUsers = (params?: {
-  page?: number;
-  limit?: number;
-  filter?: Record<string, unknown>;
-}) => {
+export const useUsers = (params: PageParams = {}) => {
   return useQuery({
     queryKey: userKeys.list(params),
     queryFn: async () => {

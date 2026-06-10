@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { ApiClient } from '@/api/base';
+import { ApiClient } from '@/services/base';
 import type { Company } from '@/types/company';
 
 export const createCompanySchema = z.object({

@@ -32,11 +32,11 @@ class AuthService {
   }
 
   changePassword(id: string, data: ChangePasswordData) {
-    return apiClient.patch<ApiResponse<null>>(`/auth/${id}/password`, data);
+    return apiClient.patch<ApiResponse<null>>('/auth/' + id + '/password', data);
   }
 
   updateProfile(id: string, data: UpdateProfileData) {
-    return apiClient.patch<ApiResponse<User>>(`/auth/${id}/profile`, data);
+    return apiClient.patch<ApiResponse<User>>('/auth/' + id + '/profile', data);
   }
 }
 
