@@ -1,8 +1,11 @@
 import apiClient from '@/libs/api-client';
-import type { ApiResponse, PageParams, PaginatedApiResponse } from '@/types/api';
-
-export type Identifier = string;
-export type WithIdentifier<T> = T & { id: Identifier };
+import type {
+  ApiResponse,
+  Identifier,
+  PaginationParam,
+  PaginatedApiResponse,
+  WithIdentifier,
+} from '@/types/api';
 
 export class ApiClient<T, C = Partial<T>, U = Partial<T>> {
   protected basePath: string;
@@ -11,7 +14,7 @@ export class ApiClient<T, C = Partial<T>, U = Partial<T>> {
     this.basePath = basePath;
   }
 
-  async index(params: PageParams) {
+  async index(params: PaginationParam) {
     const { data } = await apiClient.get<PaginatedApiResponse<T>>(this.basePath, { params });
     return data;
   }

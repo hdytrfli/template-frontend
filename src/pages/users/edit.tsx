@@ -6,9 +6,10 @@ import { Header } from '@/components/ui/header';
 import { useUpdateUser, useUser } from '@/hooks/use-user-query';
 import { UserForm } from '@/pages/users/form';
 import type { UserFormData } from '@/pages/users/form';
+import type { PageParam } from '@/types/api';
 
 export const UserEdit = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<PageParam>();
   const { data: user, isLoading } = useUser(id!);
   const updateUser = useUpdateUser();
   const navigate = useNavigate();

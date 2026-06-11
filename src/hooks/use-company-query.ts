@@ -1,17 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { CompanyService } from '@/services/company';
-import type { PageParams } from '@/types/api';
+import type { PaginationParam } from '@/types/api';
 
 const companyService = new CompanyService();
 
 export const companyKeys = {
   all: ['companies'] as const,
-  list: (params: PageParams) => [...companyKeys.all, 'list', params] as const,
+  list: (params: PaginationParam) => [...companyKeys.all, 'list', params] as const,
   detail: (id: string) => [...companyKeys.all, 'detail', id] as const,
 };
 
-export const useCompanies = (params: PageParams = {}) => {
+export const useCompanies = (params: PaginationParam = {}) => {
   return useQuery({
     queryKey: companyKeys.list(params),
     queryFn: () => companyService.index(params),

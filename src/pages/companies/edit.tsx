@@ -6,9 +6,10 @@ import { Header } from '@/components/ui/header';
 import { useCompany, useUpdateCompany } from '@/hooks/use-company-query';
 import { CompanyForm } from '@/pages/companies/form';
 import type { CompanyFormData } from '@/pages/companies/form';
+import type { PageParam } from '@/types/api';
 
 export const CompanyEdit = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<PageParam>();
   const { data: company, isLoading } = useCompany(id!);
   const updateCompany = useUpdateCompany();
   const navigate = useNavigate();

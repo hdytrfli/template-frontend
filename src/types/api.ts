@@ -1,3 +1,7 @@
+export type Identifier = string;
+export type PageParam = { id: Identifier };
+export type WithIdentifier<T> = T & PageParam;
+
 export type ApiResponse<T> = {
   success: boolean;
   data: T;
@@ -13,7 +17,7 @@ export type PaginatedApiResponse<T> = ApiResponse<T[]> & {
   };
 };
 
-export type PageParams = Partial<{
+export type PaginationParam = Partial<{
   page: number;
   limit: number;
   sort: string;
