@@ -11,7 +11,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createCompanySchema, updateCompanySchema } from '@/services/company';
 
-type CompanyFormData = z.infer<typeof createCompanySchema> | z.infer<typeof updateCompanySchema>;
+export type CompanyFormData =
+  | z.infer<typeof createCompanySchema>
+  | z.infer<typeof updateCompanySchema>;
 
 interface CompanyFormProps {
   defaultValues?: Partial<z.infer<typeof createCompanySchema>>;

@@ -1,4 +1,4 @@
-import apiClient from '@/libs/auth-client';
+import apiClient from '@/libs/api-client';
 import type { ApiResponse } from '@/types/api';
 import type {
   AuthResponse,
@@ -10,34 +10,39 @@ import type {
   User,
 } from '@/types/auth';
 
-class AuthService {
-  register(data: RegisterData) {
-    return apiClient.post<ApiResponse<AuthResponse>>('/auth/register', data);
+export class AuthService {
+  async register(data: RegisterData) {
+    const response = await apiClient.post<ApiResponse<AuthResponse>>('/auth/register', data);
+    return response.data;
   }
 
-  login(data: LoginData) {
-    return apiClient.post<ApiResponse<AuthResponse>>('/auth/login', data);
+  async login(data: LoginData) {
+    const response = await apiClient.post<ApiResponse<AuthResponse>>('/auth/login', data);
+    return response.data;
   }
 
-  refresh() {
-    return apiClient.post<ApiResponse<RefreshResponse>>('/auth/refresh');
+  async refresh() {
+    const response = await apiClient.post<ApiResponse<RefreshResponse>>('/auth/refresh');
+    return response.data;
   }
 
-  profile() {
-    return apiClient.get<ApiResponse<User>>('/auth/profile');
+  async profile() {
+    const response = await apiClient.get<ApiResponse<User>>('/auth/profile');
+    return response.data;
   }
 
-  logout() {
-    return apiClient.post<ApiResponse<null>>('/auth/logout');
+  async logout() {
+    const response = await apiClient.post<ApiResponse<null>>('/auth/logout');
+    return response.data;
   }
 
-  changePassword(id: string, data: ChangePasswordData) {
-    return apiClient.patch<ApiResponse<null>>('/auth/' + id + '/password', data);
+  async changePassword(id: string, data: ChangePasswordData) {
+    const response = await apiClient.patch<ApiResponse<null>>('/auth/' + id + '/password', data);
+    return response.data;
   }
 
-  updateProfile(id: string, data: UpdateProfileData) {
-    return apiClient.patch<ApiResponse<User>>('/auth/' + id + '/profile', data);
+  async updateProfile(id: string, data: UpdateProfileData) {
+    const response = await apiClient.patch<ApiResponse<User>>('/auth/' + id + '/profile', data);
+    return response.data;
   }
 }
-
-export const authService = new AuthService();

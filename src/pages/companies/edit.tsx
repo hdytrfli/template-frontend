@@ -1,12 +1,11 @@
 import { useParams, useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import * as z from 'zod';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useCompany, useUpdateCompany } from '@/hooks/use-company-query';
 import { CompanyForm } from '@/pages/companies/form';
-import { createCompanySchema, updateCompanySchema } from '@/services/company';
+import type { CompanyFormData } from '@/pages/companies/form';
 
 export const CompanyEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,13 +13,9 @@ export const CompanyEdit = () => {
   const updateCompany = useUpdateCompany();
   const navigate = useNavigate();
 
-  const onSubmit = async (
-    data: z.infer<typeof createCompanySchema> | z.infer<typeof updateCompanySchema>,
-  ) => {
+  const onSubmit = async (data: CompanyFormData) => {
     try {
-      await updateCompany.mutateAsync({ ...data, id: id! } as Parameters<
-        typeof updateCompany.mutateAsync
-      >[0]);
+      await updateCompany.mutateAsync({ ...data, id: id! });
       toast.success('Company updated');
       navigate('/companies');
     } catch {

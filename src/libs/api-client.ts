@@ -36,6 +36,7 @@ apiClient.interceptors.response.use(
         const { data } = await refreshClient.post(apiUrl + '/auth/refresh');
         const token = data.data.accessToken;
         setAccessToken(token);
+
         originalRequest.headers.Authorization = tokenName + ' ' + token;
         return apiClient(originalRequest);
       } catch {

@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import * as z from 'zod';
 
-import { userService, createUserSchema, updateUserSchema } from '@/services/user';
+import { UserService } from '@/services/user';
 import type { PageParams } from '@/types/api';
+
+const userService = new UserService();
 
 export const userKeys = {
   all: ['users'] as const,
@@ -13,20 +14,14 @@ export const userKeys = {
 export const useUsers = (params: PageParams = {}) => {
   return useQuery({
     queryKey: userKeys.list(params),
-    queryFn: async () => {
-      const { data: res } = await userService.index(params);
-      return res;
-    },
+    queryFn: () => userService.index(params),
   });
 };
 
 export const useUser = (id: string) => {
   return useQuery({
     queryKey: userKeys.detail(id),
-    queryFn: async () => {
-      const { data: res } = await userService.findById(id);
-      return res.data;
-    },
+    queryFn: () => userService.findById(id),
     enabled: !!id,
   });
 };
@@ -35,10 +30,7 @@ export const useCreateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: z.infer<typeof createUserSchema>) => {
-      const { data: res } = await userService.create(data);
-      return res.data;
-    },
+    mutationFn: userService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
     },
@@ -49,10 +41,7 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...data }: z.infer<typeof updateUserSchema> & { id: string }) => {
-      const { data: res } = await userService.update(id, data);
-      return res.data;
-    },
+    mutationFn: userService.update,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: userKeys.detail(variables.id) });
       queryClient.invalidateQueries({ queryKey: userKeys.all });
@@ -64,10 +53,7 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      const { data: res } = await userService.delete(id);
-      return res.data;
-    },
+    mutationFn: userService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
     },

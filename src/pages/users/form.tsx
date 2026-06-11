@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createUserSchema, updateUserSchema } from '@/services/user';
 
-type UserFormData = z.infer<typeof createUserSchema> | z.infer<typeof updateUserSchema>;
+export type UserFormData = z.infer<typeof createUserSchema> | z.infer<typeof updateUserSchema>;
 
 interface UserFormProps {
   defaultValues?: Partial<z.infer<typeof createUserSchema>>;
@@ -104,6 +104,7 @@ export const UserForm = ({
             Cancel
           </Button>
         )}
+
         <Button type='submit' variant='primary' disabled={isPending}>
           {isUpdate ? 'Update' : 'Create'}
         </Button>

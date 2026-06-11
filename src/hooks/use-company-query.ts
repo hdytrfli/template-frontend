@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import * as z from 'zod';
 
-import { companyService, createCompanySchema, updateCompanySchema } from '@/services/company';
+import { CompanyService } from '@/services/company';
 import type { PageParams } from '@/types/api';
+
+const companyService = new CompanyService();
 
 export const companyKeys = {
   all: ['companies'] as const,
@@ -13,32 +14,22 @@ export const companyKeys = {
 export const useCompanies = (params: PageParams = {}) => {
   return useQuery({
     queryKey: companyKeys.list(params),
-    queryFn: async () => {
-      const { data: res } = await companyService.index(params);
-      return res;
-    },
+    queryFn: () => companyService.index(params),
   });
 };
 
 export const useCompany = (id: string) => {
   return useQuery({
     queryKey: companyKeys.detail(id),
-    queryFn: async () => {
-      const { data: res } = await companyService.findById(id);
-      return res.data;
-    },
+    queryFn: () => companyService.findById(id),
     enabled: !!id,
   });
 };
 
 export const useCreateCompany = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: async (data: z.infer<typeof createCompanySchema>) => {
-      const { data: res } = await companyService.create(data);
-      return res.data;
-    },
+    mutationFn: companyService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: companyKeys.all });
     },
@@ -47,12 +38,8 @@ export const useCreateCompany = () => {
 
 export const useUpdateCompany = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: async ({ id, ...data }: z.infer<typeof updateCompanySchema> & { id: string }) => {
-      const { data: res } = await companyService.update(id, data);
-      return res.data;
-    },
+    mutationFn: companyService.update,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: companyKeys.detail(variables.id) });
       queryClient.invalidateQueries({ queryKey: companyKeys.all });
@@ -62,12 +49,8 @@ export const useUpdateCompany = () => {
 
 export const useDeleteCompany = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: async (id: string) => {
-      const { data: res } = await companyService.delete(id);
-      return res.data;
-    },
+    mutationFn: companyService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: companyKeys.all });
     },

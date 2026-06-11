@@ -6,15 +6,14 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useCreateUser } from '@/hooks/use-user-query';
 import { UserForm } from '@/pages/users/form';
-import { createUserSchema, updateUserSchema } from '@/services/user';
+import type { UserFormData } from '@/pages/users/form';
+import type { createUserSchema } from '@/services/user';
 
 export const UserCreate = () => {
   const createUser = useCreateUser();
   const navigate = useNavigate();
 
-  const onSubmit = async (
-    data: z.infer<typeof createUserSchema> | z.infer<typeof updateUserSchema>,
-  ) => {
+  const onSubmit = async (data: UserFormData) => {
     try {
       await createUser.mutateAsync(data as z.infer<typeof createUserSchema>);
       toast.success('User created');

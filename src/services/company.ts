@@ -26,5 +26,3 @@ export class CompanyService extends ApiClient<
     super('/companies');
   }
 }
-
-export const companyService = new CompanyService();

@@ -6,15 +6,14 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useCreateCompany } from '@/hooks/use-company-query';
 import { CompanyForm } from '@/pages/companies/form';
-import { createCompanySchema, updateCompanySchema } from '@/services/company';
+import type { CompanyFormData } from '@/pages/companies/form';
+import type { createCompanySchema } from '@/services/company';
 
 export const CompanyCreate = () => {
   const createCompany = useCreateCompany();
   const navigate = useNavigate();
 
-  const onSubmit = async (
-    data: z.infer<typeof createCompanySchema> | z.infer<typeof updateCompanySchema>,
-  ) => {
+  const onSubmit = async (data: CompanyFormData) => {
     try {
       await createCompany.mutateAsync(data as z.infer<typeof createCompanySchema>);
       toast.success('Company created');

@@ -1,12 +1,11 @@
 import { useParams, useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import * as z from 'zod';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useUpdateUser, useUser } from '@/hooks/use-user-query';
 import { UserForm } from '@/pages/users/form';
-import { createUserSchema, updateUserSchema } from '@/services/user';
+import type { UserFormData } from '@/pages/users/form';
 
 export const UserEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,13 +13,9 @@ export const UserEdit = () => {
   const updateUser = useUpdateUser();
   const navigate = useNavigate();
 
-  const onSubmit = async (
-    data: z.infer<typeof createUserSchema> | z.infer<typeof updateUserSchema>,
-  ) => {
+  const onSubmit = async (data: UserFormData) => {
     try {
-      await updateUser.mutateAsync({ ...data, id: id! } as Parameters<
-        typeof updateUser.mutateAsync
-      >[0]);
+      await updateUser.mutateAsync({ ...data, id: id! });
       toast.success('User updated');
       navigate('/users');
     } catch {

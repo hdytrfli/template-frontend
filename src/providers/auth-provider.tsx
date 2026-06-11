@@ -1,25 +1,27 @@
 import * as React from 'react';
 
 import { AuthContext } from '@/context/auth-context';
-import { setAccessToken } from '@/libs/auth-client';
-import { authService } from '@/services/auth';
+import { setAccessToken } from '@/libs/api-client';
+import { AuthService } from '@/services/auth';
 import type { LoginData, RegisterData } from '@/types/auth';
 import type { User } from '@/types/user';
+
+const authService = new AuthService();
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = React.useState<User | null>(null);
   const [loading, setLoading] = React.useState(true);
 
-  const login = React.useCallback(async (data: LoginData) => {
-    const { data: res } = await authService.login(data);
-    setUser(res.data.user);
-    setAccessToken(res.data.accessToken);
+  const login = React.useCallback(async (formData: LoginData) => {
+    const { data } = await authService.login(formData);
+    setUser(data.user);
+    setAccessToken(data.accessToken);
   }, []);
 
-  const register = React.useCallback(async (data: RegisterData) => {
-    const { data: res } = await authService.register(data);
-    setUser(res.data.user);
-    setAccessToken(res.data.accessToken);
+  const register = React.useCallback(async (formData: RegisterData) => {
+    const { data } = await authService.register(formData);
+    setUser(data.user);
+    setAccessToken(data.accessToken);
   }, []);
 
   const logout = React.useCallback(async () => {
@@ -31,11 +33,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   React.useEffect(() => {
     const init = async () => {
       try {
-        const { data: res } = await authService.refresh();
-        setAccessToken(res.data.accessToken);
-
-        const { data: userRes } = await authService.profile();
-        setUser(userRes.data);
+        const { data } = await authService.refresh();
+        setAccessToken(data.accessToken);
+        const { data: userData } = await authService.profile();
+        setUser(userData);
       } catch {
         setUser(null);
         setAccessToken(null);

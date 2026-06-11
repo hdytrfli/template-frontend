@@ -28,5 +28,3 @@ export class UserService extends ApiClient<
     super('/users');
   }
 }
-
-export const userService = new UserService();
