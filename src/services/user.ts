@@ -19,11 +19,10 @@ export const updateUserSchema = z.object({
   phone: z.string().optional(),
 });
 
-export class UserService extends ApiClient<
-  User,
-  z.infer<typeof createUserSchema>,
-  z.infer<typeof updateUserSchema>
-> {
+export type CreateUserData = z.infer<typeof createUserSchema>;
+export type UpdateUserData = z.infer<typeof updateUserSchema>;
+
+export class UserService extends ApiClient<User, CreateUserData, UpdateUserData> {
   constructor() {
     super('/users');
   }

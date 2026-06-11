@@ -4,17 +4,17 @@ import { toast } from 'sonner';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useCompany, useUpdateCompany } from '@/hooks/use-company-query';
-import { CompanyForm } from '@/pages/companies/form';
-import type { CompanyFormData } from '@/pages/companies/form';
-import type { PageParam } from '@/types/api';
+import { CompanyUpdateForm } from '@/pages/companies/update-form';
+import type { UpdateCompanyData } from '@/services/company';
 
 export const CompanyEdit = () => {
-  const { id } = useParams<PageParam>();
+  const { id } = useParams<{ id: string }>();
   const { data: company, isLoading } = useCompany(id!);
+
   const updateCompany = useUpdateCompany();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: CompanyFormData) => {
+  const onSubmit = async (data: UpdateCompanyData) => {
     try {
       await updateCompany.mutateAsync({ ...data, id: id! });
       toast.success('Company updated');
@@ -33,10 +33,9 @@ export const CompanyEdit = () => {
       <Card>
         <CardHeader title='Company Details' />
         <CardContent>
-          <CompanyForm
+          <CompanyUpdateForm
             defaultValues={company}
             onSubmit={onSubmit}
-            isUpdate
             isPending={updateCompany.isPending}
             onCancel={() => navigate('/companies')}
           />

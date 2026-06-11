@@ -27,7 +27,7 @@ export const UserList = () => {
     <div className='grid gap-8'>
       <div className='flex items-center justify-between'>
         <Header>Users</Header>
-        <Button variant='primary' onClick={() => navigate('/user/create')}>
+        <Button variant='primary' onClick={() => navigate('/users/create')}>
           <Plus size={16} />
           <span>Create User</span>
         </Button>

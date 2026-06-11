@@ -1,61 +1,40 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Building2, Globe, Mail, Type } from 'lucide-react';
-import type { FieldError } from 'react-hook-form';
+import { ArrowUpRight, Building2, Globe, Mail, Type, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Field } from '@/components/ui/field';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { createCompanySchema, updateCompanySchema } from '@/services/company';
+import { createCompanySchema, type CreateCompanyData } from '@/services/company';
 
-export type CompanyFormData =
-  | z.infer<typeof createCompanySchema>
-  | z.infer<typeof updateCompanySchema>;
-
-interface CompanyFormProps {
-  defaultValues?: Partial<z.infer<typeof createCompanySchema>>;
-  onSubmit: (data: CompanyFormData) => Promise<void>;
-  isUpdate?: boolean;
-  isPending?: boolean;
-  onCancel?: () => void;
+interface CompanyCreateFormProps {
+  onSubmit: (data: CreateCompanyData) => Promise<void>;
+  isPending: boolean;
+  onCancel: () => void;
 }
 
-export const CompanyForm = ({
-  defaultValues,
-  onSubmit,
-  isUpdate,
-  isPending,
-  onCancel,
-}: CompanyFormProps) => {
-  const schema = isUpdate ? updateCompanySchema : createCompanySchema;
-
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues,
-  });
-
-  const err = form.formState.errors as Record<string, FieldError | undefined>;
+export const CompanyCreateForm = ({ onSubmit, isPending, onCancel }: CompanyCreateFormProps) => {
+  const form = useForm<CreateCompanyData>({ resolver: zodResolver(createCompanySchema) });
 
   return (
     <Form onSubmit={form.handleSubmit(onSubmit)}>
-      <Field error={err.name}>
+      <Field error={form.formState.errors.name} description='Up to 200 characters'>
         <Label htmlFor='name' required>
           Name
         </Label>
         <Input id='name' placeholder='Company name' {...form.register('name')} icon={Building2} />
       </Field>
 
-      <Field error={err.country}>
+      <Field error={form.formState.errors.country} description='Country of operation'>
         <Label htmlFor='country' required>
           Country
         </Label>
         <Input id='country' placeholder='Country' {...form.register('country')} icon={Globe} />
       </Field>
 
-      <Field error={err.email}>
+      <Field error={form.formState.errors.email}>
         <Label htmlFor='email' required>
           Email
         </Label>
@@ -68,7 +47,9 @@ export const CompanyForm = ({
         />
       </Field>
 
-      <Field error={err.companyType}>
+      <Field
+        error={form.formState.errors.companyType}
+        description='e.g. Retail, Technology, Finance'>
         <Label htmlFor='companyType' required>
           Company Type
         </Label>
@@ -76,13 +57,13 @@ export const CompanyForm = ({
       </Field>
 
       <div className='flex gap-4'>
-        {onCancel && (
-          <Button type='button' variant='ghost' onClick={onCancel} disabled={isPending}>
-            Cancel
-          </Button>
-        )}
+        <Button type='button' variant='ghost' onClick={onCancel} disabled={isPending}>
+          <X size={16} />
+          <span>Cancel</span>
+        </Button>
         <Button type='submit' variant='primary' disabled={isPending}>
-          {isUpdate ? 'Update' : 'Create'}
+          <span>Create</span>
+          <ArrowUpRight size={16} />
         </Button>
       </div>
     </Form>

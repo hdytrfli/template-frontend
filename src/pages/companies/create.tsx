@@ -1,21 +1,19 @@
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import * as z from 'zod';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useCreateCompany } from '@/hooks/use-company-query';
-import { CompanyForm } from '@/pages/companies/form';
-import type { CompanyFormData } from '@/pages/companies/form';
-import type { createCompanySchema } from '@/services/company';
+import { CompanyCreateForm } from '@/pages/companies/create-form';
+import type { CreateCompanyData } from '@/services/company';
 
 export const CompanyCreate = () => {
   const createCompany = useCreateCompany();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: CompanyFormData) => {
+  const onSubmit = async (data: CreateCompanyData) => {
     try {
-      await createCompany.mutateAsync(data as z.infer<typeof createCompanySchema>);
+      await createCompany.mutateAsync(data);
       toast.success('Company created');
       navigate('/companies');
     } catch {
@@ -29,7 +27,7 @@ export const CompanyCreate = () => {
       <Card>
         <CardHeader title='Company Details' />
         <CardContent>
-          <CompanyForm
+          <CompanyCreateForm
             onSubmit={onSubmit}
             isPending={createCompany.isPending}
             onCancel={() => navigate('/companies')}

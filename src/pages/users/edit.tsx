@@ -4,17 +4,16 @@ import { toast } from 'sonner';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Header } from '@/components/ui/header';
 import { useUpdateUser, useUser } from '@/hooks/use-user-query';
-import { UserForm } from '@/pages/users/form';
-import type { UserFormData } from '@/pages/users/form';
-import type { PageParam } from '@/types/api';
+import { UserUpdateForm } from '@/pages/users/update-form';
+import type { UpdateUserData } from '@/services/user';
 
 export const UserEdit = () => {
-  const { id } = useParams<PageParam>();
+  const { id } = useParams<{ id: string }>();
   const { data: user, isLoading } = useUser(id!);
   const updateUser = useUpdateUser();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: UserFormData) => {
+  const onSubmit = async (data: UpdateUserData) => {
     try {
       await updateUser.mutateAsync({ ...data, id: id! });
       toast.success('User updated');
@@ -33,10 +32,9 @@ export const UserEdit = () => {
       <Card>
         <CardHeader title='User Details' />
         <CardContent>
-          <UserForm
+          <UserUpdateForm
             defaultValues={user}
             onSubmit={onSubmit}
-            isUpdate
             isPending={updateUser.isPending}
             onCancel={() => navigate('/users')}
           />

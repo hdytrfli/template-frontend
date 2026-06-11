@@ -17,11 +17,10 @@ export const updateCompanySchema = z.object({
   companyType: z.string().min(1).max(100).optional(),
 });
 
-export class CompanyService extends ApiClient<
-  Company,
-  z.infer<typeof createCompanySchema>,
-  z.infer<typeof updateCompanySchema>
-> {
+export type CreateCompanyData = z.infer<typeof createCompanySchema>;
+export type UpdateCompanyData = z.infer<typeof updateCompanySchema>;
+
+export class CompanyService extends ApiClient<Company, CreateCompanyData, UpdateCompanyData> {
   constructor() {
     super('/companies');
   }
